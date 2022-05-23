@@ -63,7 +63,7 @@ kind: Service
 metadata:
   creationTimestamp: "2022-05-23T16:22:20Z"
   name: default-http-backend
-  namespace: app-space
+  namespace: apps-space
   resourceVersion: "2126"
   uid: f7c081cd-b43c-43a7-9c53-48ca4006bca7
 spec:
@@ -86,7 +86,7 @@ kind: Service
 metadata:
   creationTimestamp: "2022-05-23T16:22:20Z"
   name: video-service
-  namespace: app-space
+  namespace: apps-space
   resourceVersion: "2109"
   uid: 71917102-90d0-4437-8ae6-e1ae6b07fb07
 spec:
