@@ -89,7 +89,7 @@ spec:
     spec:
       containers:
       - name: jenkins-app
-        image: jenkins/jenkins:jdk11
+        image: jenkins/jenkins:lts-jdk11
         ports:
         - containerPort: 80
 ---
