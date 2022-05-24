@@ -73,34 +73,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tarampampam-error-pages
+  name: grafana-enterprise
   namespace: app-docker-space
   labels:
-    app: tarampampam-error-pages
+    app: grafana-enterprise
 spec:
   selector:
     matchLabels:
-      app: tarampampam-error-pages
+      app: grafana-enterprise
   replicas: 2
   template:
     metadata:
       labels:
-        app: tarampampam-error-pages
+        app: grafana-enterprise
     spec:
       containers:
-      - name: tarampampam-error-pages
-        image: tarampampam/error-pages
+      - name: grafana-enterprise
+        image: grafana/grafana-enterprise:8.2.0
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tarampampam-error-pages-svc
+  name: grafana-enterprise-svc
   namespace: app-docker-space
 spec:
   selector:
-    app: otarampampam-error-pages
+    app: grafana-enterprise
   ports:
     - port: 8088
       targetPort: 80
@@ -133,10 +133,10 @@ spec:
               name: rancher-hello-world-svc
               port:
                 number: 8088
-        - path: /tarampampam
+        - path: /grafana
           pathType: Prefix
           backend:
             service:
-              name: tarampampam-error-pages-svc
+              name: grafana-enterprise-svc
               port:
                 number: 8088
