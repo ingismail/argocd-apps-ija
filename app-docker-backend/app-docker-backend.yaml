@@ -73,34 +73,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana-enterprise
+  name: jenkins-app
   namespace: app-docker-space
   labels:
-    app: grafana-enterprise
+    app: jenkins-app
 spec:
   selector:
     matchLabels:
-      app: grafana-enterprise
+      app: jenkins-app
   replicas: 2
   template:
     metadata:
       labels:
-        app: grafana-enterprise
+        app: jenkins-app
     spec:
       containers:
-      - name: grafana-enterprise
-        image: grafana/grafana-enterprise:8.2.0
+      - name: jenkins-app
+        image: jenkins/jenkins:jdk11
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana-enterprise-svc
+  name: jenkins-svc
   namespace: app-docker-space
 spec:
   selector:
-    app: grafana-enterprise
+    app: jenkins-app
   ports:
     - port: 8088
       targetPort: 80
@@ -133,10 +133,10 @@ spec:
               name: rancher-hello-world-svc
               port:
                 number: 8088
-        - path: /grafana
+        - path: /jenkins
           pathType: Prefix
           backend:
             service:
-              name: grafana-enterprise-svc
+              name: jenkins-svc
               port:
                 number: 8088
