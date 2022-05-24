@@ -73,34 +73,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-app
+  name: sonarqube-app
   namespace: app-docker-space
   labels:
-    app: jenkins-app
+    app: sonarqube-app
 spec:
   selector:
     matchLabels:
-      app: jenkins-app
+      app: sonarqube-app
   replicas: 2
   template:
     metadata:
       labels:
-        app: jenkins-app
+        app: sonarqube-app
     spec:
       containers:
-      - name: jenkins-app
-        image: jenkins/jenkins:lts-jdk11
+      - name: sonarqube-app
+        image: sonarqube
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jenkins-svc
+  name: sonarqube-svc
   namespace: app-docker-space
 spec:
   selector:
-    app: jenkins-app
+    app: sonarqube-app
   ports:
     - port: 8088
       targetPort: 80
@@ -133,10 +133,10 @@ spec:
               name: rancher-hello-world-svc
               port:
                 number: 8088
-        - path: /jenkins
+        - path: /sonarqube
           pathType: Prefix
           backend:
             service:
-              name: jenkins-svc
+              name: sonarqube-svc
               port:
                 number: 8088
