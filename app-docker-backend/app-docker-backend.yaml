@@ -133,10 +133,10 @@ spec:
               name: rancher-hello-world-svc
               port:
                 number: 8088
-        - path: /okteto
+        - path: /tarampampam
           pathType: Prefix
           backend:
             service:
-              name: okteto-hello-world-svc
+              name: tarampampam-error-pages-svc
               port:
                 number: 8088
