@@ -73,34 +73,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: okteto-hello-world
+  name: tarampampam-error-pages
   namespace: app-docker-space
   labels:
-    app: okteto-hello-world
+    app: tarampampam-error-pages
 spec:
   selector:
     matchLabels:
-      app: okteto-hello-world
+      app: tarampampam-error-pages
   replicas: 2
   template:
     metadata:
       labels:
-        app: okteto-hello-world
+        app: tarampampam-error-pages
     spec:
       containers:
-      - name: okteto-hello-world
-        image: okteto/hello-world
+      - name: tarampampam-error-pages
+        image: tarampampam/error-pages
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: okteto-hello-world-svc
+  name: tarampampam-error-pages-svc
   namespace: app-docker-space
 spec:
   selector:
-    app: okteto-hello-world
+    app: otarampampam-error-pages
   ports:
     - port: 8088
       targetPort: 80
