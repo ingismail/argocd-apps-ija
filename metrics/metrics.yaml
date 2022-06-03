@@ -24,7 +24,7 @@ metadata:
   name: beamium-config
   namespace: metrics
 data:
-  config.yaml:
+  config.yaml: |
     scrapers:
       nodering:
         url: http://0.0.0.0:9100/metrics
