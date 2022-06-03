@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: metrics
+  labels:
+    app.kubernetes.io/name: metrics
+    app.kubernetes.io/instance: metrics
+---
+apiVersion: v1
+data:
+  METRICS_TOKEN: eW91ci10b2tlbg==
+kind: Secret
+metadata:
+  creationTimestamp: "2022-06-03T13:05:59Z"
+  name: w10-credentials
+  namespace: metrics
+  resourceVersion: "24550747806"
+  uid: 18c87caf-dd54-41e1-a2f0-f9638e332bb4
+type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: beamium-config
+  namespace: metrics
+data:
+  config.yaml: |
+    scrapers:
+      nodering:
+        url: http://0.0.0.0:9100/metrics
+        period: 30000
+        format: sensision
+        labels:
+          app: nodering
+
+    sinks:
+      warp:
+        url: https://warp10.gra1.metrics.ovh.net/api/v0/update
+        token: $METRICS_TOKEN
+
+    labels:
+      host: $HOSTNAME
+
+    parameters:
+      log-file: /dev/stdout
+---
+# This is a custom collector that report the uptime of the node
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: noderig-collector
+  namespace: metrics
+data:
+  uptime.sh: |
+    #!/bin/sh
+    echo 'os.uptime' `date +%s%N | cut -b1-10` `awk '{print $1}' /proc/uptime`
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: metrics-daemon
+  namespace: metrics
+spec:
+  selector:
+    matchLabels:
+      name: metrics-daemon
+  template:
+    metadata:
+      labels:
+        name: metrics-daemon
+    spec:
+      terminationGracePeriodSeconds: 10
+      hostNetwork: true
+      volumes:
+      - name: config
+        configMap:
+          name: beamium-config
+      - name: noderig-collector
+        configMap:
+          name: noderig-collector
+          defaultMode: 0777
+      - name: beamium-persistence
+        emptyDir:{}
+      containers:
+      - image: ovhcom/beamium:latest
+        imagePullPolicy: Always
+        name: beamium
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: TEMPLATE_CONFIG
+          value: /config/config.yaml
+        envFrom:
+        - secretRef:
+            name: w10-credentials
+            optional: false
+        resources:
+          limits:
+            cpu: "0.05"
+            memory: 128Mi
+          requests:
+            cpu: "0.01"
+            memory: 128Mi
+        workingDir: /beamium
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /beamium
+          name: beamium-persistence
+      - image: ovhcom/noderig:latest
+        imagePullPolicy: Always
+        name: noderig
+        args: ["-c", "/collectors", "--net", "3"]
+        volumeMounts:
+        - mountPath: /collectors/60/uptime.sh
+          name: noderig-collector
+          subPath: uptime.sh
+        resources:
+          limits:
+            cpu: "0.05"
+            memory: 128Mi
+          requests:
+            cpu: "0.01"
+            memory: 128Mi
+---
