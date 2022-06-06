@@ -80,7 +80,7 @@ spec:
           name: noderig-collector
           defaultMode: 0777
       - name: beamium-persistence
-        emptyDir:{}
+        emptyDir: {}
       containers:
       - image: ovhcom/beamium:latest
         imagePullPolicy: Always
