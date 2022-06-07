@@ -1,13 +1,13 @@
 apiVersion: v1
 data:
-  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSI5eGh5bWd5ei5ncmE3LmNvbnRhaW5lci1yZWdpc3RyeS5vdmgubmV0IjogewoJCQkiYXV0aCI6ICJhWE50WVdsc0xtcGhiR3h2ZFd4cFFHbHNaWGd0YVc1MFpYSnVZWFJwYjI1aGJDNWpiMjA2TVRrNE9GTm1ZWGd3TWpBeSIKCQl9Cgl9Cn0=
+  .dockerconfigjson: eyJhdXRocyI6eyI5eGh5bWd5ei5ncmE3LmNvbnRhaW5lci1yZWdpc3RyeS5vdmgubmV0Ijp7InVzZXJuYW1lIjoiaXNtYWlsLmphbGxvdWxpIiwicGFzc3dvcmQiOiIxOTg4U2ZheDAyMDIiLCJlbWFpbCI6ImlzbWFpbC5qYWxsb3VsaUBpbGV4LWludGVybmF0aW9uYWwuY29tIiwiYXV0aCI6ImFYTnRZV2xzTG1waGJHeHZkV3hwT2pFNU9EaFRabUY0TURJd01nPT0ifX19
 kind: Secret
 metadata:
-  creationTimestamp: "2022-06-01T14:57:35Z"
-  name: secret-local-saasv2
+  creationTimestamp: "2022-06-07T07:22:24Z"
+  name: secret-ids
   namespace: test-docker-auth
-  resourceVersion: "24455808401"
-  uid: 3ccd345b-014a-45c0-932f-6891f87ec9ca
+  resourceVersion: "24732037956"
+  uid: cb0fb1aa-62fc-4062-a48b-2bba62e4539a
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: v1
@@ -18,6 +18,6 @@ metadata:
 spec:
   containers:
   - name: ids
-    image: 9xhymgyz.gra7.container-registry.ovh.net/ilex-international/idsphere/ids-web:3.0.0.M1-SN
+    image: 9xhymgyz.gra7.container-registry.ovh.net/ilex-international/idsphere/ids-web@sha256:d05e0c5ea69a3cda911ba342b4e824e7800d4ec57ec82232b09238ab9249f845
   imagePullSecrets:
   - name: secret-local-saasv2
