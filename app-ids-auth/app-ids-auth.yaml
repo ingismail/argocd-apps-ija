@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSI5eGh5bWd5ei5ncmE3LmNvbnRhaW5lci1yZWdpc3RyeS5vdmgubmV0IjogewoJCQkiYXV0aCI6ICJhWE50WVdsc0xtcGhiR3h2ZFd4cFFHbHNaWGd0YVc1MFpYSnVZWFJwYjI1aGJDNWpiMjA2TVRrNE9GTm1ZWGd3TWpBeSIKCQl9Cgl9Cn0=
+kind: Secret
+metadata:
+  creationTimestamp: "2022-06-01T14:57:35Z"
+  name: secret-local-saasv2
+  namespace: test-docker-auth
+  resourceVersion: "24455808401"
+  uid: 3ccd345b-014a-45c0-932f-6891f87ec9ca
+type: kubernetes.io/dockerconfigjson
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ids
+  namespace: test-docker-auth
+spec:
+  containers:
+  - name: ids
+    image: 9xhymgyz.gra7.container-registry.ovh.net/ilex-international/idsphere/ids-web:3.0.0.M1-SN
+  imagePullSecrets:
+  - name: secret-local-saasv2
