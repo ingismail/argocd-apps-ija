@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "linked"
+  name: "linkerd"
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  namespace: linked
+  namespace: linkerd
   name: linkerd-config
 data:
   config.yml: |-
@@ -38,7 +38,7 @@ data:
 kind: ReplicationController
 apiVersion: v1
 metadata:
-  namespace: linked
+  namespace: linkerd
   name: linkerd
 spec:
   replicas: 1
@@ -79,7 +79,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  namespace: linked
+  namespace: linkerd
   name: linkerd
 spec:
   selector:
@@ -93,11 +93,10 @@ spec:
     port: 9990
     targetPort: 9990
 ---
----
 kind: ReplicationController
 apiVersion: v1
 metadata:
-  namespace: linked
+  namespace: linkerd
   name: nginx
 spec:
   replicas: 1
@@ -120,7 +119,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  namespace: linked
+  namespace: linkerd
   name: nginx
 spec:
   selector:
