@@ -56,7 +56,7 @@ spec:
   - secretName: tls-secret
   rules:
 
-  - host: https-example.foo.com
+  - host: https-ilex.example.com
     http:
       paths:
       - path: /rancher
