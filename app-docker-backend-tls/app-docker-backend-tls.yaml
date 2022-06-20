@@ -1,26 +1,3 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: docker-hello-world
-  namespace: app-docker-space
-  labels:
-    app: docker-hello-world
-spec:
-  selector:
-    matchLabels:
-      app: docker-hello-world
-  replicas: 3
-  template:
-    metadata:
-      labels:
-        app: docker-hello-world
-    spec:
-      containers:
-      - name: docker-hello-world
-        image: scottsbaldwin/docker-hello-world:latest
-        ports:
-        - containerPort: 80
----
 apiVersion: v1
 data:
   tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUROekNDQWgrZ0F3SUJBZ0lFUm9YSEpqQU5CZ2txaGtpRzl3MEJBUXNGQURBUk1ROHdEUVlEVlFRREV3WlMKYjI5MFEwRXdIaGNOTWpJd01URTVNVGN4TWpRd1doY05Nak13TVRFNU1UY3hNalF3V2pBWU1SWXdGQVlEVlFRRApEQTBxTG1sc1pYZ3RjMmt1WTI5dE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBCnV4NWVaZ2s0WW4rb2tWQXFTQzYvQk15OFhVb2R1SVh6S3pWK3E0WjlKbmtWUFVpdHlLMTFnb2xpdTR4RWRzR1IKVHhPZlM2RmVvYzVEZGVmQldRSzRTb1J0aGdGMzZrVWFESDJyMzdJSW16djhMWDF0USsvNnFHUDhCT3lzUEVCTwo5aFp4ZGpZVDRWRi8xZm1ablVLMEI2UkF6enZ0Z0NjM21nQnRJL0Y0bEJUUzIxNkk1cFQxTVlxRXlWdjJ4RldGCitBa2Z1dUJib3B4WmtTWkNIamFNdWFiMkx5T3ZyeEZpaU9ncHFkRmdOSlpLMGVhMG5VZ0tSelFESWVVRkhFaEwKNGpST3cxWjJWWnkvVk80NnViZmE5ai9pKzVGcVlmM3BacXkzVy82cFB3VS9wYzdsa1BnVzFLdVBXZFRnN3pIaApVR2ZLYTM4QmpYd2ZwVSt2MERiM3hRSURBUUFCbzRHUE1JR01NQjBHQTFVZERnUVdCQlF2VVdRN3dzOVBqS2ErCjJpZzNWYy8zZW9QdEpEQUxCZ05WSFE4RUJBTUNCYUF3SFFZRFZSMFJCQll3RklJU2MyVnlkbVZ5TG1sc1pYZ3QKYzJrdVkyOXRNQWtHQTFVZEV3UUNNQUF3SHdZRFZSMGpCQmd3Rm9BVVlJdGpnZTVmbEJaOUFlRkdWdnQ1d3ZKKwo0N293RXdZRFZSMGxCQXd3Q2dZSUt3WUJCUVVIQXdFd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFHM2IrOTNZCm9zbTYrbVRTaGRaR3F3dEVqeHZKZ00wT2pqRWpRNkFvVmJaYmpOVlRQTnp6cHQ4Q0Y1eFBhbG9KSXhDTjZSb3QKbDlXUUU0L3lsWU5mdURoanA1YVlya2szQklwcmJtOHJGSkZYZ0YyMElOSUpkQVhDalcybE1IcmRneWh2ZWZ0WQprWmduQXFrOGtXbmo1Y2x4cGd0TXBUdEt6Qlg5c3J4QUhsRCtscHM1YTdRZ3J6Um8zWU5uS0cvR0dDZFBpT3pyClZsRnhJNkUxN3J3MU8vdDBNczNtMUJlL3UyWjZWUkgzMklrTXlzekdWVVNuWDZxU2J5YXBwZmFXNG1tSk5hOFEKRGhhcCtFelJpb2wwTEkzSitJQmY5VE5yaWxkRUxGYnY3SmdXK2NGeURFOGN4ZThybTN2MWhrbGFwMHA1TjlpbwprV2w1Qlc1SFI5L2pJNHc9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
@@ -30,19 +7,6 @@ metadata:
   name: tls-secret
   namespace: app-docker-space
 type: kubernetes.io/tls
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: docker-hello-world-svc
-  namespace: app-docker-space
-spec:
-  selector:
-    app: docker-hello-world
-  ports:
-    - port: 8088
-      targetPort: 80
-  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -79,42 +43,6 @@ spec:
     - port: 8088
       targetPort: 80
   type: LoadBalancer
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sonarqube-app
-  namespace: app-docker-space
-  labels:
-    app: sonarqube-app
-spec:
-  selector:
-    matchLabels:
-      app: sonarqube-app
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: sonarqube-app
-    spec:
-      containers:
-      - name: sonarqube-app
-        image: sonarqube
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sonarqube-svc
-  namespace: app-docker-space
-spec:
-  selector:
-    app: sonarqube-app
-  ports:
-    - port: 8088
-      targetPort: 80
-  type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
